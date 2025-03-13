@@ -5,7 +5,7 @@ defmodule HighScore do
     %{}
   end
 
-  def add_player(scores, name, score \\ 0) do
+  def add_player(scores, name, score \\ @default_score) do
     Map.put(scores, name, score)
   end
 
@@ -18,13 +18,10 @@ defmodule HighScore do
   end
 
   def update_score(scores, name, score) do
-    old_score = Map.get(scores, name, 0)
-    Map.put(scores, name, old_score + score)
+    Map.update(scores, name, score, &(&1 + score))
   end
 
   def get_players(scores) do
-    Map.to_list(scores)
-    |> Enum.map(fn {name, _} -> name end)
-    |> Enum.sort
+    Map.keys scores
   end
 end
