@@ -1,7 +1,6 @@
 defmodule Username do
-  def sanitize(username, aggr \\ ~c"")
-  def sanitize([], aggr), do: aggr
-  def sanitize([head | rest], aggr) do
+  def sanitize([]), do: []
+  def sanitize([head | rest]) do
     head =
       case head do
         ?\s -> ~c""
@@ -15,6 +14,6 @@ defmodule Username do
         _ -> []
       end
 
-    sanitize(rest, aggr ++ head)
+      head ++ sanitize(rest)
   end
 end
